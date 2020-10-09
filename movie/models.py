@@ -24,6 +24,8 @@ def create_fake_data(count_ru: int = int(2.5 * 1000000),
     from faker import Faker
     faker_en = Faker()
     faker_ru = Faker('ru_RU')
+    batch_size = min((count_ru, count_en, batch_size))
+
     print(f'Run fake data: {count_ru + count_en}, batch_size: {batch_size}')
     MovieModel.objects.all().delete()
     movies = []
@@ -32,7 +34,7 @@ def create_fake_data(count_ru: int = int(2.5 * 1000000),
             title=faker_ru.sentence(),
             description=faker_ru.text(),
             file_path=faker_en.file_path(),
-            str_path=faker_en.file_path()
+            srt_path=faker_en.file_path()
         )
         movies.append(movie)
         if len(movies) >= batch_size:
@@ -45,7 +47,7 @@ def create_fake_data(count_ru: int = int(2.5 * 1000000),
             title=faker_en.sentence(),
             description=faker_en.text(),
             file_path=faker_en.file_path(),
-            str_path=faker_en.file_path()
+            srt_path=faker_en.file_path()
         )
         movies.append(movie)
         if len(movies) >= batch_size:
